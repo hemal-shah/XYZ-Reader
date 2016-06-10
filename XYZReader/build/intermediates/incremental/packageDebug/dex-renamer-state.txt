@@ -1,0 +1,7 @@
+#Sat Jun 11 01:20:58 IST 2016
+base.0=/home/hemal/Desktop/Udacity-android-nd/xyzreader/XYZReader/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run_e9d525d68fd563f7b353dafc60a31f41bb8a26f0
+renamed.1=classes2.dex
+renamed.0=classes.dex
+file.1=/home/hemal/Desktop/Udacity-android-nd/xyzreader/XYZReader/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run-bootstrap_3faeb1bd43f1762674fa0e3475551dc61ae21077/classes.dex
+base.1=/home/hemal/Desktop/Udacity-android-nd/xyzreader/XYZReader/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run-bootstrap_3faeb1bd43f1762674fa0e3475551dc61ae21077
+file.0=/home/hemal/Desktop/Udacity-android-nd/xyzreader/XYZReader/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run_e9d525d68fd563f7b353dafc60a31f41bb8a26f0/classes.dex
