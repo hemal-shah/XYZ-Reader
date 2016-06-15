@@ -1,5 +1,7 @@
 package com.example.xyzreader.ui;
 
+import android.animation.Animator;
+import android.animation.ObjectAnimator;
 import android.app.Fragment;
 import android.app.LoaderManager;
 import android.content.Context;
@@ -24,6 +26,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import com.example.xyzreader.R;
 import com.example.xyzreader.data.ArticleLoader;
 import com.squareup.picasso.Picasso;
@@ -56,7 +59,6 @@ public class ArticleDetailFragment extends Fragment implements
     private int mScrollY;
     private boolean mIsCard = false;
     private int mStatusBarFullOpacityBottom;
-
 
 
     public ArticleDetailFragment() {
@@ -206,7 +208,6 @@ public class ArticleDetailFragment extends Fragment implements
                 public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
                     mPhotoView.setImageBitmap(bitmap);
                     Palette palette = Palette.from(bitmap).generate();
-//                    Palette p = Palette.generate(bitmap, 12);
                     mMutedColor = palette.getDarkMutedColor(0xFF333333);
                     mRootView.findViewById(R.id.meta_bar).setBackgroundColor(mMutedColor);
                     updateStatusBar();
@@ -214,7 +215,7 @@ public class ArticleDetailFragment extends Fragment implements
 
                 @Override
                 public void onBitmapFailed(Drawable errorDrawable) {
-
+                    Log.e(TAG, "onBitmapFailed: error");
                 }
 
                 @Override
@@ -230,7 +231,7 @@ public class ArticleDetailFragment extends Fragment implements
         } else {
             mRootView.setVisibility(View.GONE);
             titleView.setText("N/A");
-            bylineView.setText("N/A" );
+            bylineView.setText("N/A");
             bodyView.setText("N/A");
         }
     }
