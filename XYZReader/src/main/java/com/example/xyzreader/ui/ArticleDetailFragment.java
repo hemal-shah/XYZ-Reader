@@ -208,7 +208,7 @@ public class ArticleDetailFragment extends Fragment implements
                         public void onGenerated(Palette palette) {
                             Log.i(TAG, "onGenerated: into the method execution");
                             mMutedColor = palette.getDarkMutedColor(0xFF333333);
-                            mPhotoContainerView.setBackgroundColor(mMutedColor);
+                            mPhotoContainerView.setBackgroundColor(palette.getLightMutedColor(0xFF333333));
                             mRootView.findViewById(R.id.meta_bar).setBackgroundColor(mMutedColor);
                             updateStatusBar();
                         }

@@ -9,5 +9,6 @@
 
     <string name="up">Up</string>
     <string name="shared_element_transition">ImageTransitionName</string>
+    <string name="article_title">article_title</string>
 
 </resources>

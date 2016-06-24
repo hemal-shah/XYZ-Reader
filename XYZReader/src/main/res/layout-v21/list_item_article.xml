@@ -31,6 +31,7 @@
             style="@style/TextAppearance.AppCompat.Subhead"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:transitionName="@string/article_title"
             android:ellipsize="end"
             android:maxLines="4"
             android:paddingBottom="4dp"
