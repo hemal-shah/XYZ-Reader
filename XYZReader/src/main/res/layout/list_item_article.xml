@@ -21,6 +21,7 @@
             android:background="@color/my_image_background_color"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:transitionName="ImageTransitionName"
             android:scaleType="fitStart"
             android:adjustViewBounds="true"
             />

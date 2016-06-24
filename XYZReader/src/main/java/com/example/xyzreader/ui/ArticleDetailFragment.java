@@ -1,7 +1,5 @@
 package com.example.xyzreader.ui;
 
-import android.animation.Animator;
-import android.animation.ObjectAnimator;
 import android.app.Fragment;
 import android.app.LoaderManager;
 import android.content.Context;
@@ -84,6 +82,7 @@ public class ArticleDetailFragment extends Fragment implements
         mStatusBarFullOpacityBottom = getResources().getDimensionPixelSize(
                 R.dimen.detail_card_top_margin);
         setHasOptionsMenu(true);
+
     }
 
     public ArticleDetailActivity getActivityCast() {
@@ -94,10 +93,6 @@ public class ArticleDetailFragment extends Fragment implements
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        // In support library r8, calling initLoader for a fragment in a FragmentPagerAdapter in
-        // the fragment's onCreate may cause the same LoaderManager to be dealt to multiple
-        // fragments because their mIndex is -1 (haven't been added to the activity yet). Thus,
-        // we do this in onActivityCreated.
         getLoaderManager().initLoader(0, null, this);
     }
 
@@ -207,10 +202,19 @@ public class ArticleDetailFragment extends Fragment implements
                 @Override
                 public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
                     mPhotoView.setImageBitmap(bitmap);
-                    Palette palette = Palette.from(bitmap).generate();
-                    mMutedColor = palette.getDarkMutedColor(0xFF333333);
-                    mRootView.findViewById(R.id.meta_bar).setBackgroundColor(mMutedColor);
-                    updateStatusBar();
+
+                    Palette.from(bitmap).generate(new Palette.PaletteAsyncListener() {
+                        @Override
+                        public void onGenerated(Palette palette) {
+                            Log.i(TAG, "onGenerated: into the method execution");
+                            mMutedColor = palette.getDarkMutedColor(0xFF333333);
+                            mPhotoContainerView.setBackgroundColor(mMutedColor);
+                            mRootView.findViewById(R.id.meta_bar).setBackgroundColor(mMutedColor);
+                            updateStatusBar();
+                        }
+                    });
+
+
                 }
 
                 @Override
@@ -224,10 +228,13 @@ public class ArticleDetailFragment extends Fragment implements
                 }
             };
 
+            //TODO: As I have low internet connection speed, the images dont generally show up faster,
+            //TODO: That is why I have used here THUMB_URL, alternatively you can use PHOTO_URL if you want
+            //TODO: better quality images.
+            String url = mCursor.getString(ArticleLoader.Query.THUMB_URL);
             Picasso.with(this.context)
-                    .load(mCursor.getString(ArticleLoader.Query.PHOTO_URL))
+                    .load(url)
                     .into(target);
-
         } else {
             mRootView.setVisibility(View.GONE);
             titleView.setText("N/A");
