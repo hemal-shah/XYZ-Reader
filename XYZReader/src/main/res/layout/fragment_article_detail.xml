@@ -2,8 +2,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/draw_insets_frame_layout"
     android:layout_width="match_parent"
-    android:theme="@style/TranslucentTheme"
-    app:insetBackground="#9000"
     android:layout_height="match_parent">
 
     <com.example.xyzreader.ui.ObservableScrollView
@@ -40,11 +38,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/photo_container"
-                android:layout_gravity="center_horizontal"
+                android:layout_gravity="center_horizontal|center_vertical"
                 android:background="#fff"
-                android:elevation="4dp"
+                android:layout_centerInParent="true"
+                app:elevation="4dp"
                 android:maxWidth="@dimen/detail_card_max_width"
                 android:orientation="vertical">
+
 
                 <LinearLayout
                     android:id="@+id/meta_bar"
@@ -91,6 +91,7 @@
                     android:textColor="@color/primary_text"
                     android:textColorLink="@color/accent"
                     android:textSize="@dimen/detail_body_text_size" />
+
 
             </com.example.xyzreader.ui.MaxWidthLinearLayout>
         </RelativeLayout>
