@@ -9,5 +9,12 @@
         <item name="android:textColorSecondary">@color/secondary_text</item>
         <item name="android:icon">@color/icons</item>
         <item name="android:divider">@color/divider</item>
+        <item name="toolbarStyle">@style/toolbar</item>
     </style>
+
+    <style name="toolbar" parent="Widget.AppCompat.Toolbar">
+        <item name="android:background">?attr/colorPrimary</item>
+        <item name="popupTheme">@style/Theme.AppCompat.Light.DarkActionBar</item>
+    </style>
+
 </resources>
