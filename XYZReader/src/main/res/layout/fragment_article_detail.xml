@@ -2,6 +2,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/draw_insets_frame_layout"
     android:layout_width="match_parent"
+    android:theme="@style/TranslucentTheme"
+    app:insetBackground="#9000"
     android:layout_height="match_parent">
 
     <com.example.xyzreader.ui.ObservableScrollView
