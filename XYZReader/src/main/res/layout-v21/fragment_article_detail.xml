@@ -7,7 +7,6 @@
     <com.example.xyzreader.ui.ObservableScrollView
         android:id="@+id/scrollview"
         android:layout_width="match_parent"
-        android:transitionGroup="false"
         android:layout_height="match_parent">
 
         <RelativeLayout
@@ -50,6 +49,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom"
+                    android:transitionGroup="true"
                     android:layout_marginBottom="@dimen/detail_metabar_vert_padding"
                     android:background="#333"
                     android:orientation="vertical"
