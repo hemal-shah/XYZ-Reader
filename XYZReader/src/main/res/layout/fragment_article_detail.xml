@@ -13,12 +13,10 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent">
 
-
             <FrameLayout
                 android:id="@+id/photo_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-                <!--suppress AndroidLintContentDescription -->
 
                 <com.example.xyzreader.ui.ThreeTwoImageView
                     android:id="@+id/photo"
@@ -35,13 +33,14 @@
 
 
             <com.example.xyzreader.ui.MaxWidthLinearLayout
+                android:id="@+id/scrollUpAnimation"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/photo_container"
                 android:layout_gravity="center_horizontal|center_vertical"
                 android:background="#fff"
                 android:layout_centerInParent="true"
-                app:elevation="4dp"
+                app:elevation="8dp"
                 android:maxWidth="@dimen/detail_card_max_width"
                 android:orientation="vertical">
 
@@ -108,7 +107,6 @@
         android:layout_marginEnd="@dimen/fab_margin"
         android:layout_marginRight="@dimen/fab_margin"
         android:contentDescription="@string/action_share"
-        android:padding="4dp"
         android:src="@drawable/ic_share"
         app:elevation="@dimen/fab_elevation"
         app:fabSize="normal" />

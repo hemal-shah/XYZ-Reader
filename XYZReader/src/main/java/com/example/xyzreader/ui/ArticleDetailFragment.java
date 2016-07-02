@@ -1,5 +1,7 @@
 package com.example.xyzreader.ui;
 
+import android.animation.Animator;
+import android.animation.ObjectAnimator;
 import android.app.Fragment;
 import android.app.LoaderManager;
 import android.content.Context;
@@ -22,6 +24,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -50,6 +54,7 @@ public class ArticleDetailFragment extends Fragment implements
     private DrawInsetsFrameLayout mDrawInsetsFrameLayout;
     private ColorDrawable mStatusBarColorDrawable;
 
+    View showScrollingView;
     private Context context;
     private int mTopInset;
     private View mPhotoContainerView;
@@ -126,6 +131,8 @@ public class ArticleDetailFragment extends Fragment implements
         mPhotoContainerView = mRootView.findViewById(R.id.photo_container);
 
         mStatusBarColorDrawable = new ColorDrawable(0);
+
+        showScrollingView = (View) mRootView.findViewById(R.id.scrollUpAnimation);
 
         mRootView.findViewById(R.id.share_fab).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -210,6 +217,18 @@ public class ArticleDetailFragment extends Fragment implements
                             mMutedColor = palette.getDarkMutedColor(0xFF333333);
                             mPhotoContainerView.setBackgroundColor(palette.getLightMutedColor(0xFF333333));
                             mRootView.findViewById(R.id.meta_bar).setBackgroundColor(mMutedColor);
+
+
+                            //TODO looks good on tablet, but not on phone. Improvise.
+//                            Animation slide = null;
+//                            slide = new TranslateAnimation(Animation.RELATIVE_TO_PARENT, 0.0f,
+//                                    Animation.RELATIVE_TO_PARENT, 0.0f,
+//                                    Animation.RELATIVE_TO_PARENT, 0.05f,
+//                                    Animation.RELATIVE_TO_PARENT, -0.05f);
+//
+//                            slide.setDuration(300);
+//                            slide.setFillAfter(true);
+//                            showScrollingView.startAnimation(slide);
                             updateStatusBar();
                         }
                     });
@@ -241,7 +260,9 @@ public class ArticleDetailFragment extends Fragment implements
             bylineView.setText("N/A");
             bodyView.setText("N/A");
         }
+
     }
+
 
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
