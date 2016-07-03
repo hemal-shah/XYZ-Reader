@@ -136,9 +136,13 @@ public class ArticleListActivity extends AppCompatActivity implements
                     //TODO failing
                     Intent intent = new Intent(Intent.ACTION_VIEW,
                             ItemsContract.Items.buildItemUri(getItemId(vh.getAdapterPosition())));
-                    ActivityOptionsCompat compat = ActivityOptionsCompat.makeSceneTransitionAnimation(activity);
 
-                    ActivityCompat.startActivity(activity, intent, compat.toBundle());
+                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+                        Bundle bundle = ActivityOptions.makeSceneTransitionAnimation(activity).toBundle();
+                        startActivity(intent, bundle);
+                    } else {
+                        startActivity(intent);
+                    }
                 }
             });
             return vh;

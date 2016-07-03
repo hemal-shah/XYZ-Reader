@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <style name="AppTheme.Main" parent="@style/AppTheme">
-        <item name="android:windowContentTransitions">true</item>
+        <item name="android:windowActivityTransitions">true</item>
+        <item name="android:windowExitTransition">@transition/exit_transition_grid</item>
+        <item name="android:windowReenterTransition">@android:transition/slide_top</item>
     </style>
 
     <style name="AppTheme.Detail" parent="@style/TranslucentTheme">
-        <item name="android:windowContentTransitions">true</item>
-        <item name="android:windowEnterTransition">@transition/details_enter_transition</item>
-        <item name="android:windowReturnTransition">@transition/details_return_transition</item>
+        <item name="android:windowActivityTransitions">true</item>
     </style>
 </resources>

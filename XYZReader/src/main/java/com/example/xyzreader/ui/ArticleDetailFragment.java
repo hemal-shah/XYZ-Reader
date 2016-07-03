@@ -1,7 +1,5 @@
 package com.example.xyzreader.ui;
 
-import android.animation.Animator;
-import android.animation.ObjectAnimator;
 import android.app.Fragment;
 import android.app.LoaderManager;
 import android.content.Context;
@@ -24,8 +22,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -64,8 +60,7 @@ public class ArticleDetailFragment extends Fragment implements
     private int mStatusBarFullOpacityBottom;
 
 
-    public ArticleDetailFragment() {
-    }
+    public ArticleDetailFragment() {}
 
     public static ArticleDetailFragment newInstance(long itemId) {
         Bundle arguments = new Bundle();
@@ -97,16 +92,14 @@ public class ArticleDetailFragment extends Fragment implements
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
         getLoaderManager().initLoader(0, null, this);
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
         mRootView = inflater.inflate(R.layout.fragment_article_detail, container, false);
-        mDrawInsetsFrameLayout = (DrawInsetsFrameLayout)
-                mRootView.findViewById(R.id.draw_insets_frame_layout);
+        mDrawInsetsFrameLayout = (DrawInsetsFrameLayout) mRootView.findViewById(R.id.draw_insets_frame_layout);
         mDrawInsetsFrameLayout.setOnInsetsCallback(new DrawInsetsFrameLayout.OnInsetsCallback() {
             @Override
             public void onInsetsChanged(Rect insets) {
@@ -132,14 +125,14 @@ public class ArticleDetailFragment extends Fragment implements
 
         mStatusBarColorDrawable = new ColorDrawable(0);
 
-        showScrollingView = (View) mRootView.findViewById(R.id.scrollUpAnimation);
+        showScrollingView = mRootView.findViewById(R.id.scrollUpAnimation);
 
         mRootView.findViewById(R.id.share_fab).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startActivity(Intent.createChooser(ShareCompat.IntentBuilder.from(getActivity())
                         .setType("text/plain")
-                        .setText("Some sample text")
+                        .setText("Check out this article!")
                         .getIntent(), getString(R.string.action_share)));
             }
         });
@@ -168,7 +161,7 @@ public class ArticleDetailFragment extends Fragment implements
         return constrain((v - min) / (max - min), 0, 1);
     }
 
-    static float constrain(float val, float min, float max) {
+    private static float constrain(float val, float min, float max) {
         if (val < min) {
             return min;
         } else if (val > max) {
@@ -190,6 +183,7 @@ public class ArticleDetailFragment extends Fragment implements
         bodyView.setTypeface(Typeface.createFromAsset(getResources().getAssets(), "Rosario-Regular.ttf"));
 
         if (mCursor != null) {
+
             mRootView.setAlpha(0);
             mRootView.setVisibility(View.VISIBLE);
             mRootView.animate().alpha(1);
@@ -213,7 +207,6 @@ public class ArticleDetailFragment extends Fragment implements
                     Palette.from(bitmap).generate(new Palette.PaletteAsyncListener() {
                         @Override
                         public void onGenerated(Palette palette) {
-                            Log.i(TAG, "onGenerated: into the method execution");
                             mMutedColor = palette.getDarkMutedColor(0xFF333333);
                             mPhotoContainerView.setBackgroundColor(palette.getLightMutedColor(0xFF333333));
                             mRootView.findViewById(R.id.meta_bar).setBackgroundColor(mMutedColor);
@@ -232,15 +225,10 @@ public class ArticleDetailFragment extends Fragment implements
                             updateStatusBar();
                         }
                     });
-
-
                 }
-
                 @Override
                 public void onBitmapFailed(Drawable errorDrawable) {
-                    Log.e(TAG, "onBitmapFailed: error");
                 }
-
                 @Override
                 public void onPrepareLoad(Drawable placeHolderDrawable) {
 
@@ -248,8 +236,8 @@ public class ArticleDetailFragment extends Fragment implements
             };
 
             //TODO: As I have low internet connection speed, the images dont generally show up faster,
-            //TODO: That is why I have used here THUMB_URL, alternatively you can use PHOTO_URL if you want
-            //TODO: better quality images.
+            // That is why I have used here THUMB_URL, alternatively you can use PHOTO_URL if you want
+            // better quality images.
             String url = mCursor.getString(ArticleLoader.Query.THUMB_URL);
             Picasso.with(this.context)
                     .load(url)
@@ -262,7 +250,6 @@ public class ArticleDetailFragment extends Fragment implements
         }
 
     }
-
 
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
@@ -280,7 +267,6 @@ public class ArticleDetailFragment extends Fragment implements
 
         mCursor = cursor;
         if (mCursor != null && !mCursor.moveToFirst()) {
-            Log.e(TAG, "Error reading item detail cursor");
             mCursor.close();
             mCursor = null;
         }
