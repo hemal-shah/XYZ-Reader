@@ -17,6 +17,7 @@ import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.util.Pair;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.text.format.DateUtils;
@@ -97,6 +98,7 @@ public class ArticleListActivity extends AppCompatActivity implements
         Adapter adapter = new Adapter(cursor, this, this, this);
         adapter.setHasStableIds(true);
         mRecyclerView.setAdapter(adapter);
+        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         int columnCount = getResources().getInteger(R.integer.list_column_count);
         StaggeredGridLayoutManager sglm =
                 new StaggeredGridLayoutManager(columnCount, StaggeredGridLayoutManager.VERTICAL);
@@ -111,12 +113,12 @@ public class ArticleListActivity extends AppCompatActivity implements
     @Override
     public void onItemClick(long _id) {
 
-        //TODO failing
         Intent intent = new Intent(Intent.ACTION_VIEW,
                 ItemsContract.Items.buildItemUri(_id));
 
-        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            Bundle bundle = ActivityOptions.makeSceneTransitionAnimation(this).toBundle();
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+
+            Bundle bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(this).toBundle();
             ActivityCompat.startActivity(this, intent, bundle);
         } else {
             startActivity(intent);

@@ -11,7 +11,7 @@
 
     <style name="AppTheme.Detail" parent="@style/TranslucentTheme">
         <item name="android:windowActivityTransitions">true</item>
-        <item name="android:windowEnterTransition">@transition/details_enter_transition</item>
+        <item name="android:windowEnterTransition">@transition/details_return_transition</item>
         <item name="android:windowReturnTransition">@transition/details_return_transition</item>
     </style>
 </resources>

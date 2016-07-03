@@ -10,5 +10,8 @@
     <string name="up">Up</string>
     <string name="shared_element_transition">ImageTransitionName</string>
     <string name="article_title">article_title</string>
+    <string name="author_transition">author_transition</string>
+    <string name="time_transition">time_transition</string>
+    <string name="image_transit">image_transition</string>
 
 </resources>

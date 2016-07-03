@@ -8,3 +8,8 @@
 /.idea/*/
 /build
 /captures
+XYZReader.iml
+xyzreader.iml
+XYZReader/build
+XYZReader/.idea
+XYZReader/gradle
