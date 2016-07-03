@@ -1,13 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!--explode working, return transition working, slide_bottom transition working.-->
+
     <style name="AppTheme.Main" parent="@style/AppTheme">
         <item name="android:windowActivityTransitions">true</item>
         <item name="android:windowExitTransition">@transition/exit_transition_grid</item>
-        <item name="android:windowReenterTransition">@android:transition/slide_top</item>
+        <item name="android:windowReenterTransition">@android:transition/slide_bottom</item>
     </style>
 
     <style name="AppTheme.Detail" parent="@style/TranslucentTheme">
         <item name="android:windowActivityTransitions">true</item>
+        <item name="android:windowEnterTransition">@transition/details_enter_transition</item>
+        <item name="android:windowReturnTransition">@transition/details_return_transition</item>
     </style>
 </resources>

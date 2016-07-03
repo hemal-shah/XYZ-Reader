@@ -1,7 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+<!--Working-->
+
 <transitionSet android:transitionOrdering="together"
     android:duration="500"
     xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <slide android:slideEdge="top">
+        <targets>
+            <target android:targetId="@id/photo_container"/>
+        </targets>
+    </slide>
 
     <slide android:slideEdge="bottom">
         <targets>

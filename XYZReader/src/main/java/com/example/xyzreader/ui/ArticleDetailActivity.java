@@ -47,10 +47,6 @@ public class ArticleDetailActivity extends AppCompatActivity
 
         setContentView(R.layout.activity_article_detail);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            postponeEnterTransition();
-        }
-
         getLoaderManager().initLoader(0, null, this);
 
         mPagerAdapter = new MyPagerAdapter(getFragmentManager());

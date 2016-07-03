@@ -10,6 +10,7 @@ import android.content.IntentFilter;
 import android.content.Loader;
 import android.database.Cursor;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
@@ -31,7 +32,7 @@ import com.example.xyzreader.data.UpdaterService;
 import com.squareup.picasso.Picasso;
 
 public class ArticleListActivity extends AppCompatActivity implements
-        LoaderManager.LoaderCallbacks<Cursor> {
+        LoaderManager.LoaderCallbacks<Cursor>, Callback {
 
     private static final String TAG = ArticleListActivity.class.getSimpleName();
     private SwipeRefreshLayout mSwipeRefreshLayout;
@@ -41,7 +42,6 @@ public class ArticleListActivity extends AppCompatActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_article_list);
-
         mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout);
 
         mSwipeRefreshLayout.setColorSchemeColors(Color.GREEN, Color.RED);
@@ -94,7 +94,7 @@ public class ArticleListActivity extends AppCompatActivity implements
 
     @Override
     public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor) {
-        Adapter adapter = new Adapter(cursor, this, this);
+        Adapter adapter = new Adapter(cursor, this, this, this);
         adapter.setHasStableIds(true);
         mRecyclerView.setAdapter(adapter);
         int columnCount = getResources().getInteger(R.integer.list_column_count);
@@ -108,15 +108,32 @@ public class ArticleListActivity extends AppCompatActivity implements
         mRecyclerView.setAdapter(null);
     }
 
+    @Override
+    public void onItemClick(long _id) {
+
+        //TODO failing
+        Intent intent = new Intent(Intent.ACTION_VIEW,
+                ItemsContract.Items.buildItemUri(_id));
+
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            Bundle bundle = ActivityOptions.makeSceneTransitionAnimation(this).toBundle();
+            ActivityCompat.startActivity(this, intent, bundle);
+        } else {
+            startActivity(intent);
+        }
+    }
+
     private class Adapter extends RecyclerView.Adapter<ViewHolder> {
         private Cursor mCursor;
         private Context context;
         Activity activity;
+        Callback callback;
 
-        public Adapter(Cursor cursor, Context context, Activity activity) {
+        public Adapter(Cursor cursor, Context context, Activity activity, Callback callback) {
             mCursor = cursor;
             this.context = context;
             this.activity = activity;
+            this.callback = callback;
         }
 
         @Override
@@ -132,17 +149,8 @@ public class ArticleListActivity extends AppCompatActivity implements
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-
-                    //TODO failing
-                    Intent intent = new Intent(Intent.ACTION_VIEW,
-                            ItemsContract.Items.buildItemUri(getItemId(vh.getAdapterPosition())));
-
-                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-                        Bundle bundle = ActivityOptions.makeSceneTransitionAnimation(activity).toBundle();
-                        startActivity(intent, bundle);
-                    } else {
-                        startActivity(intent);
-                    }
+                    if(callback != null)
+                        callback.onItemClick(getItemId(vh.getAdapterPosition()));
                 }
             });
             return vh;
@@ -187,4 +195,8 @@ public class ArticleListActivity extends AppCompatActivity implements
         }
     }
 
+
+}
+interface Callback{
+    void onItemClick(long _id);
 }
