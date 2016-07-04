@@ -9,14 +9,17 @@ import android.content.IntentFilter;
 import android.content.Loader;
 import android.database.Cursor;
 import android.graphics.Color;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.text.format.DateUtils;
@@ -35,6 +38,15 @@ public class ArticleListActivity extends AppCompatActivity implements LoaderMana
 
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private RecyclerView mRecyclerView;
+    private CoordinatorLayout coordinatorLayout;
+
+
+    private boolean isNetworkAvailable() {
+        ConnectivityManager manager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo ni = manager.getActiveNetworkInfo();
+        return ni != null && ni.isConnectedOrConnecting();
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,8 +54,19 @@ public class ArticleListActivity extends AppCompatActivity implements LoaderMana
         setContentView(R.layout.activity_article_list);
 
 
+        coordinatorLayout = (CoordinatorLayout) findViewById(R.id.coordinator_layout);
+
         mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout);
-        mSwipeRefreshLayout.setColorSchemeColors(Color.GREEN, Color.RED, Color.BLUE, Color.MAGENTA,Color.GRAY, Color.YELLOW);
+        mSwipeRefreshLayout.setColorSchemeColors(Color.GREEN, Color.RED, Color.BLUE, Color.MAGENTA, Color.GRAY, Color.YELLOW);
+
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                //Just making an assumption
+                //that calling refresh will actually refresh the methods...
+                refresh();
+            }
+        });
 
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
 
@@ -54,7 +77,10 @@ public class ArticleListActivity extends AppCompatActivity implements LoaderMana
     }
 
     private void refresh() {
-        startService(new Intent(this, UpdaterService.class));
+        if (isNetworkAvailable())
+            startService(new Intent(this, UpdaterService.class));
+        else
+            Snackbar.make(coordinatorLayout, "Not connected to the Internet!", Snackbar.LENGTH_LONG).show();
     }
 
     @Override
@@ -149,7 +175,7 @@ public class ArticleListActivity extends AppCompatActivity implements LoaderMana
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if(callback != null)
+                    if (callback != null)
                         callback.onItemClick(getItemId(vh.getAdapterPosition()));
                 }
             });

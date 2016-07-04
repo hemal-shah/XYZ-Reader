@@ -2,6 +2,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/coordinator_layout"
     android:fitsSystemWindows="true">
 
     <android.support.design.widget.AppBarLayout
@@ -14,7 +15,7 @@
             android:id="@+id/toolbar_article_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:elevation="0dp"
+            app:elevation="@dimen/appbar_elevation"
             app:layout_scrollFlags="scroll|enterAlwaysCollapsed"
             app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
 

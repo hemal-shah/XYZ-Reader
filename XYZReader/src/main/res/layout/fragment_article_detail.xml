@@ -26,7 +26,7 @@
 
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="112dp"
+                    android:layout_height="@dimen/shadow_for_back_button"
                     android:background="@drawable/photo_background_protection" />
 
             </FrameLayout>
@@ -39,6 +39,7 @@
                 android:layout_below="@+id/photo_container"
                 android:layout_gravity="center_horizontal|center_vertical"
                 android:background="#fff"
+                android:layout_marginTop="@dimen/top_margin_text_content"
                 android:layout_centerInParent="true"
                 app:elevation="8dp"
                 android:maxWidth="@dimen/detail_card_max_width"
@@ -109,6 +110,7 @@
         android:contentDescription="@string/action_share"
         android:src="@drawable/ic_share"
         app:elevation="@dimen/fab_elevation"
+        app:pressedTranslationZ="8dp"
         app:fabSize="normal" />
 
 </com.example.xyzreader.ui.DrawInsetsFrameLayout>
