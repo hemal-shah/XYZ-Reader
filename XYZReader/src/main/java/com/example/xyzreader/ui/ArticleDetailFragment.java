@@ -19,10 +19,17 @@ import android.support.v7.graphics.Palette;
 import android.text.Html;
 import android.text.format.DateUtils;
 import android.text.method.LinkMovementMethod;
+import android.transition.Transition;
+import android.transition.TransitionInflater;
+import android.transition.TransitionManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
+import android.view.animation.AnimationUtils;
+import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -36,9 +43,7 @@ import com.squareup.picasso.Target;
  * either contained in a {@link ArticleListActivity} in two-pane mode (on
  * tablets) or a {@link ArticleDetailActivity} on handsets.
  */
-public class ArticleDetailFragment extends Fragment implements
-        LoaderManager.LoaderCallbacks<Cursor> {
-    private static final String TAG = "ArticleDetailFragment";
+public class ArticleDetailFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
     public static final String ARG_ITEM_ID = "item_id";
     private static final float PARALLAX_FACTOR = 1.25f;
@@ -50,8 +55,6 @@ public class ArticleDetailFragment extends Fragment implements
     private ObservableScrollView mScrollView;
     private DrawInsetsFrameLayout mDrawInsetsFrameLayout;
     private ColorDrawable mStatusBarColorDrawable;
-
-    View showScrollingView;
     private Context context;
     private int mTopInset;
     private View mPhotoContainerView;
@@ -95,8 +98,6 @@ public class ArticleDetailFragment extends Fragment implements
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         getLoaderManager().initLoader(0, null, this);
-
-
     }
 
     @Override
@@ -128,8 +129,6 @@ public class ArticleDetailFragment extends Fragment implements
         mPhotoContainerView = mRootView.findViewById(R.id.photo_container);
 
         mStatusBarColorDrawable = new ColorDrawable(0);
-
-        showScrollingView = mRootView.findViewById(R.id.scrollUpAnimation);
 
         mRootView.findViewById(R.id.share_fab).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -171,7 +170,7 @@ public class ArticleDetailFragment extends Fragment implements
         mDrawInsetsFrameLayout.setInsetBackground(mStatusBarColorDrawable);
     }
 
-    static float progress(float v, float min, float max) {
+    private static float progress(float v, float min, float max) {
         return constrain((v - min) / (max - min), 0, 1);
     }
 
@@ -224,18 +223,6 @@ public class ArticleDetailFragment extends Fragment implements
                             mMutedColor = palette.getDarkMutedColor(0xFF333333);
                             mPhotoContainerView.setBackgroundColor(palette.getLightMutedColor(0xFF333333));
                             mRootView.findViewById(R.id.meta_bar).setBackgroundColor(mMutedColor);
-
-
-                            //TODO looks good on tablet, but not on phone. Improvise.
-//                            Animation slide = null;
-//                            slide = new TranslateAnimation(Animation.RELATIVE_TO_PARENT, 0.0f,
-//                                    Animation.RELATIVE_TO_PARENT, 0.0f,
-//                                    Animation.RELATIVE_TO_PARENT, 0.05f,
-//                                    Animation.RELATIVE_TO_PARENT, -0.05f);
-//
-//                            slide.setDuration(300);
-//                            slide.setFillAfter(true);
-//                            showScrollingView.startAnimation(slide);
                             updateStatusBar();
                         }
                     });
@@ -256,6 +243,26 @@ public class ArticleDetailFragment extends Fragment implements
             Picasso.with(this.context)
                     .load(url)
                     .into(target);
+
+
+            //Example of animations using java code...
+            Animation slideFromBottom = new TranslateAnimation(
+                    Animation.RELATIVE_TO_SELF, 0.0f,
+                    Animation.RELATIVE_TO_SELF, 0.0f,
+                    Animation.RELATIVE_TO_SELF, 0.25f,
+                    Animation.RELATIVE_TO_SELF, 0.0f);
+            slideFromBottom.setDuration(300);
+
+            Animation slideFromTop = new TranslateAnimation(
+                    Animation.RELATIVE_TO_SELF, 0.0f,
+                    Animation.RELATIVE_TO_SELF, 0.0f,
+                    Animation.RELATIVE_TO_SELF, -0.25f,
+                    Animation.RELATIVE_TO_SELF, 0.0f
+            );
+            slideFromTop.setDuration(300);
+            mPhotoContainerView.startAnimation(slideFromTop);
+            mRootView.findViewById(R.id.scrollUpAnimation).startAnimation(slideFromBottom);
+
         } else {
             mRootView.setVisibility(View.GONE);
             titleView.setText("N/A");
